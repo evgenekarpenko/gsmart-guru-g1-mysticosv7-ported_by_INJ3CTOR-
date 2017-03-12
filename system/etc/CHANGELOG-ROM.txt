@@ -1,0 +1,228 @@
+××××× MysticOS ROM ×××××
+========================
+DEVELOPED BY RAJ SHEKHAR
+========================
+
+CHANGELOG (V5.0)-
+-----------------
+
+Marshmallow platlogo
+L lockscreen
+Custom progress bar
+Enabled app ops
+Low battery warning
+Abs tweak
+More smooth and lagfree
+Scrolling animation
+Clear all recent
+Rearranged Mystic Fibres
+Test Listview Anim
+Phone settings
+Navigation bar options
+Multi user options
+Logo in Mystic settings
+Changed signal icons
+Screenrecord in power menu
+Screenrecorder options in settings
+Gesture Anywhere
+Performance control (non apk)
+Added task manager
+Changed action bars
+Changed switches
+Changed Keyboard
+New logo in About MysticOS
+Changed android version to 6.0
+Dialer themed again
+Themed messaging
+Lockscreen rotable
+New framework animations
+
+
+
+
+CHANGELOG (V4.0)-
+-----------------
+
+Rom's size reduced to 245 mb.
+Super smooth notification panel without any single lag.
+Sim name in panel.
+Weather in panel.
+Cpu info in statusbar.
+Cm12.1 app icons.
+Changed action bar of gallery, fm radio, browser, documents ui, Videos.
+Light themed CLock and ota updater.
+Added Flashlight app.
+Reomved Dsp manager & Viper4android.
+Removed Gramophone.
+Added AudioFx.
+Included Cm12.1 Music player.
+Android M bootanimation.
+Android M sounds.
+Removed Performance Control.
+Removed backup & restore and headsup app.
+Cm12.1 signal icons.
+Cm12.1 battery icon.
+Settings themed like Android L.
+Clock and date option.
+4 ways reboot option.
+Delete button in ss.
+
+
+
+CHANGELOG (V3.0)-
+-----------------
+
+Reduced rom's size.
+Super smooth.
+No any lags.
+New framework animations.
+Removed all scripts.
+Fixed auto rotation while playing games.
+Removed Es explorer.
+Added file manager of MysticOS v1.
+Integrated Dsp manager to settings.
+Added Backup and Restore app.
+Added Scheduled power on & off.
+Light themed sound recorder.
+Calender, Gallery themed again.
+Lollipop app icons for all apps.
+themed engineer mode.
+Transparent quickcontact badge.
+Added performance control.
+Release date, Xda thread and ota updater added in About MysticOS.
+Enabled Multi users.
+Added Media scanner on boot.
+Added CLock.
+Updated Material Nova launcher.
+Working for all dpi.
+
+
+
+CHANGELOG (V2.0)-
+-----------------
+
+Fixed navigation bar.
+New bootlogo.
+New bootanimation.
+Changed fonts.
+Awesome swipe animations in panel, Like PussyFap.
+Gramophone as default music player.
+Added Es File Explorer.
+Integrated Kernel Adiutor, Xtreme Booster in settings.
+New package installer.
+Added official ports, downloads themes in About MysticOS.
+Expandable volume panel.
+Added chameleon os network traffic and speed meter as well.
+Custom carrier label in advanced option.
+Lcd density in advanced option.
+Fixed switches in mediatek res.
+Fixed wifi icons in settings (Xhdpi).
+Removed stacked overflow from messaging.
+Fixed apn bug.
+Fixed easter egg.
+Fixed black screeen after taking ss.
+New Lland game.
+Changed albumset bg color in gallery to match it with action bar.
+All options of battery bar working.
+Dyanamic navigation bar working.
+Enabled navigation bar.
+Ram progress bar.
+More find out urself...
+
+
+
+CHANGELOG (V1.0) 
+(Initial release)-
+-----------------
+
+Framework
+•••••••••
+Animated check boxes n radio buttons.
+Lollipop list selectors.
+L dialog box with ripples.
+L notifications.
+Lollipop spinners, switches, scrubbers, text fields, etc.
+Download & upload animations.
+All other icons of framework like Lollipop.
+L platlogo with Lland game.
+Added Listview animations.
+Rest left for users...
+
+SystemUI
+•••••••
+Lollipop panel (fmd panel) with double drag.
+All qs icons like lollipop.
+L recent with animated clear button.
+Shake to clear Ram.
+Animated settings button in panel.
+Lollipop status bar icons.
+Animated vibrate,silent, flight in status bar.
+Battery bar.
+Network traffic.
+Battery styles with color chooser.
+Heads Up notifications.
+Dyanamic System Bars.
+Delete buttons in panel after taking screenies :p
+And many more...
+
+#### Note ####
+Don't try to enable Navigation bars
+
+
+System
+••••••
+Pre rooted.
+Busybox pre installed.
+Zipaligned.
+Super Smooth.
+Added Init.d support.
+Build prop tweaks
+Addes Arkay nine boost script.
+Better performance with best battery backup.
+Lock screen rotable.
+Cm12.1 app icons.
+Added pac performance.
+Viper4Android for awesome sound.
+Smart gestures.
+Etc...
+
+
+Settings
+••••••••
+White background.
+Added switches in settings.
+Added mystic fibres.
+About phone as clear as stock.
+About MysticOS in mystic fibres.
+Partition info in settings.
+Added rom logo, rom name, rom version, developer, changelogs, etc in About MysticOS.
+Autostarts, developers options, smart gestures, advanced options are also in mystic fibres.
+
+### Advanced features ###
+
+Battery Bar
+Dynamic System Bars
+Network Traffic
+Battery Styles
+Heads Up
+Listview Animations
+Viper Box
+Custom Ringtone
+mystic OS walls
+Sound Settings
+Build Prop Modder option
+Enginner mod
+performance control
+Font Chooser
+
+Other System Apps
+•••••••••••••••••
+Themed Documents ui and desk clock like pure L.
+Added different action bars for different apps.
+Themed each n every app.
+Added Fab in messaging and calender.
+Cm12.1 calculator
+Google play music
+Added check boxes, radio buttons, fastscrolls, text field for some apps...
+
+

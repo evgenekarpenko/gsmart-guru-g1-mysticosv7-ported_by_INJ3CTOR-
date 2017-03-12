@@ -1,0 +1,191 @@
+#!/system/bin/sh
+# Name: 03_VMTweaks
+# Date: 10/28/2014
+# Author: Arsie Organo Jr. - eyesfortech@XDA
+# Link: http://forum.xda-developers.com/showthread.php?t=1292743
+# About: 
+#        You will need your device to be:
+#        1. Rooted
+#        2. Busybox is installed.
+####################################################
+
+datalog=/data/Tweaks/logs/03_VMTweaks.log
+
+busybox rm -f $datalog
+#cd /data
+#busybox mkdir Tweaks
+busybox touch $datalog
+
+MINFREE=/sys/module/lowmemorykiller/parameters/minfree
+SWAPPINESS=/proc/sys/vm/swappiness
+VFSCACHE=/proc/sys/vm/vfs_cache_pressure
+DIRTYPRESS=/proc/sys/vm/dirty_ratio
+DIRTYBG=/proc/sys/vm/dirty_background_ratio
+
+echo "********** RAM and VM Optimization Initiated **********" | tee -a $datalog;
+
+# Get RAM Total value
+
+TOTALRAM=`free|grep Mem | awk '{print $2}'`
+OLDMINFREE=`cat $MINFREE`
+echo "OLD MINFREE value: $OLDMINFREE" | tee -a $datalog;
+
+# For 500 MB memory
+if [ $TOTALRAM -lt 512000 ] ; then
+    echo "1408,2816,3755,7040,9387,12288" > $MINFREE;
+# For more than 500 MB memory
+elif [ $TOTALRAM -gt 512000 ] && [ $TOTALRAM -gt 1024000 ] ; then
+	# echo "2560,4096,6144,12288,14336,18432" > $MINFREE;
+	echo "6400,8960,19200,23040,38400,64000" > $MINFREE;
+else
+	echo "1536,2048,4096,8192,16384,24576" > $MINFREE;
+fi;
+echo "16" > /sys/module/lowmemorykiller/parameters/cost
+echo "0" > /sys/module/lowmemorykiller/parameters/debug_level
+
+NEWMINFREE=`cat $MINFREE`
+echo "NEW MINFREE value: $NEWMINFREE" | tee -a $datalog;
+
+# MINFREE END
+
+# START SWAPPINESS
+# swappiness: 
+
+# parameter controls the tendency of the kernel to move processes out of 
+# physical memory and onto the swap disk. Because disks are much slower than 
+# RAM, this can lead to slower response times for system and applications if  
+# rocesses are too aggressively moved out of memory.
+# swappiness can have a value of between 0 and 100
+# swappiness=0 tells the kernel to avoid swapping processes out of physical memory for as long as possible
+# swappiness=100 tells the kernel to aggressively swap processes out of physical memory  and move them to swap cache
+echo "" | tee -a $datalog;
+echo "============================" | tee -a $datalog;
+echo "" | tee -a $datalog;
+echo "Starting SWAPPINESS...." | tee -a $datalog;
+if [ -e $SWAPPINESS ]; then
+	echo "OLD SWAPPINESS Value: $( cat $SWAPPINESS )" | tee -a $datalog;
+	#no swapping
+	echo "0" > $SWAPPINESS
+	echo "NEW SWAPPINESS Value: $( cat $SWAPPINESS )" | tee -a $datalog;
+fi;
+# END SWAPPINESS
+
+# START OF CACHE PRESSURE
+
+echo "" | tee -a $datalog;
+echo "============================" | tee -a $datalog;
+echo "" | tee -a $datalog;
+echo "Starting vfs_cache_pressure...." | tee -a $datalog;
+
+if [ -e $VFSCACHE ]; then
+	echo "OLD VFS CACHE PRESSURE Value: $( cat $VFSCACHE )" | tee -a $datalog;
+	echo "10" > $VFSCACHE
+	echo "NEW VFS CACHE PRESSURE Value: $( cat $VFSCACHE )" | tee -a $datalog;
+fi;
+# END OF CACHE PRESSURE
+
+# START DIRTY RATIO
+
+if [ -e $DIRTYPRESS ]; then
+	echo "OLD DIRTY RATIO Value: $( cat $DIRTYPRESS )" | tee -a $datalog;
+	echo "90" > $DIRTYPRESS
+	echo "NEW DIRTY RATIO Value: $( cat $DIRTYPRESS )" | tee -a $datalog;
+fi;
+# END DIRTY RATIO
+
+# START DIRTY BACKGROUND RATIO
+# dirty_background_ratio: 
+# Contains, as a percentage of total system memory, the number of pages 
+# at which the pdflush background writeback daemon will start writing 
+# out dirty data.
+
+if [ -e $DIRTYBG ]; then
+	echo "OLD DIRTY BACKGROUND RATIO Value: $( cat $DIRTYBG )" | tee -a $datalog;
+	echo "30" > $DIRTYBG
+	echo "NEW DIRTY BACKGROUND RATIO Value: $( cat $DIRTYBG )" | tee -a $datalog;
+fi;
+# END DIRTY BACKGROUND RATIO
+
+#####################################################################################
+# ADDITIONAL VM Tweaks
+# Link: https://www.kernel.org/doc/Documentation/sysctl/vm.txt
+#####################################################################################
+
+
+
+#####################################################################################
+# ADDITIONAL VM Tweaks
+# Link: https://www.kernel.org/doc/Documentation/sysctl/vm.txt
+#####################################################################################
+
+echo "3" > /proc/sys/vm/drop_caches
+echo "drop_caches: $( cat /proc/sys/vm/drop_caches )" | tee -a $datalog;
+echo "100000" > /proc/sys/kernel/sched_rt_period_us
+echo "sched_rt_period_us: $( cat /proc/sys/kernel/sched_rt_period_us )" | tee -a $datalog;
+echo "95000" > /proc/sys/kernel/sched_rt_runtime_us
+echo "sched_rt_runtime_us: $( cat /proc/sys/kernel/sched_rt_runtime_us )" | tee -a $datalog;
+echo "6144" > /proc/sys/vm/min_free_kbytes
+echo "min_free_kbytes: $( cat /proc/sys/vm/min_free_kbytes )" | tee -a $datalog;
+echo "0" > /proc/sys/vm/oom_kill_allocating_task
+echo "oom_kill_allocating_task: $( cat /proc/sys/vm/oom_kill_allocating_task )" | tee -a $datalog;
+echo "0" > /proc/sys/vm/laptop_mode
+echo "laptop_mode: $( cat /proc/sys/vm/laptop_mode )" | tee -a $datalog;
+echo "0" > /proc/sys/vm/panic_on_oom
+echo "panic_on_oom: $( cat /proc/sys/vm/panic_on_oom )" | tee -a $datalog;
+echo "0" > /proc/sys/kernel/tainted
+echo "tainted: $( cat /proc/sys/kernel/tainted )" | tee -a $datalog;
+echo "3" > /proc/sys/vm/page-cluster
+echo "page-cluster: $( cat /proc/sys/vm/page-cluster )" | tee -a $datalog;
+echo "10" > /proc/sys/fs/lease-break-time
+echo "lease-break-time: $( cat /proc/sys/fs/lease-break-time )" | tee -a $datalog;
+echo "1" > /proc/sys/vm/overcommit_memory
+echo "overcommit_memory: $( cat /proc/sys/vm/overcommit_memory)" | tee -a $datalog;
+echo "100" > /proc/sys/vm/overcommit_ratio
+echo "overcommit_ratio: $( cat /proc/sys/vm/overcommit_ratio )" | tee -a $datalog;
+echo "2000000" > /proc/sys/kernel/sched_min_granularity_ns
+echo "sched_min_granularity_ns: $( cat /proc/sys/kernel/sched_min_granularity_ns )" | tee -a $datalog;
+echo "18000000" > /proc/sys/kernel/sched_latency_ns
+echo "sched_latency_ns: $( cat /proc/sys/kernel/sched_latency_ns )" | tee -a $datalog;
+sysctl -w kernel.sched_child_runs_first=0;
+echo "sched_child_runs_first: $( cat /proc/sys/kernel/sched_child_runs_first )" | tee -a $datalog;
+sysctl -w kernel.threads-max=10000;
+echo "threads-max: $( cat /proc/sys/kernel/threads-max )" | tee -a $datalog;
+sysctl -w kernel.panic=30;
+echo "panic: $( cat /proc/sys/kernel/panic )" | tee -a $datalog;
+sysctl -w kernel.panic_on_oops=1;
+echo "panic: $( cat /proc/sys/kernel/panic_on_oops )" | tee -a $datalog;
+sysctl -w kernel.sched_wakeup_granularity_ns=3000000;
+echo "sched_wakeup_granularity_ns: $( cat /proc/sys/kernel/sched_wakeup_granularity_ns )" | tee -a $datalog;
+# CPU Tweaks
+sysctl -w net.core.optmem_max=20480;
+echo "optmem_max: $( cat /proc/sys/net/core/optmem_max )" | tee -a $datalog;
+sysctl -w net.unix.max_dgram_qlen=50;
+echo "max_dgram_qlen: $( cat /proc/sys/net/unix/max_dgram_qlen )" | tee -a $datalog;
+sysctl -w net.core.wmem_max=524288;
+echo "wmem_max: $( cat /proc/sys/net/core/wmem_max )" | tee -a $datalog;
+sysctl -w net.core.rmem_max=524288;
+echo "rmem_max: $( cat /proc/sys/net/core/rmem_max )" | tee -a $datalog;
+sysctl -w net.core.rmem_default=256960;
+echo "rmem_default: $( cat /proc/sys/net/core/rmem_default )" | tee -a $datalog;
+sysctl -w net.core.wmem_default=256960;
+echo "wmem_default: $( cat /proc/sys/net/core/wmem_default )" | tee -a $datalog;
+# VM & Filesystem tweaks
+sysctl -w fs.file-max=98833;
+echo "file-max: $( cat /proc/sys/fs/file-max )" | tee -a $datalog;
+sysctl -w vm.min_free_order_shift=4;
+echo "min_free_order_shift: $( cat /proc/sys/vm/min_free_order_shift )" | tee -a $datalog;
+sysctl -w vm.block_dump=0;
+echo "block_dump: $( cat /proc/sys/vm/block_dump )" | tee -a $datalog;
+sysctl -w vm.oom_dump_tasks=1;
+echo "block_dump: $( cat /proc/sys/vm/oom_dump_tasks )" | tee -a $datalog;
+sysctl -w kernel.randomize_va_space=0;
+sysctl -w kernel.random.write_wakeup_threshold=2048;
+sysctl -w kernel.random.read_wakeup_threshold=1333;
+echo "500" > /proc/sys/vm/dirty_expire_centisecs;
+echo "2000" > /proc/sys/vm/dirty_writeback_centisecs;
+
+####################################################################################
+echo "$( date +"%m-%d-%Y %H:%M:%S" ) RAM and VM tweaks applied successfully!" | tee -a $datalog;
+####################################################################################
+# END
+####################################################################################

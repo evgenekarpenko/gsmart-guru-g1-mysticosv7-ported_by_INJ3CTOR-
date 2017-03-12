@@ -1,0 +1,61 @@
+#!/system/bin/sh
+# TweakDrypt - Zipalign
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
+#                 Copyright (C) 2014 ArjunrambZ & DeveDroid                       |
+#                              [TweakDrypT™]                                      |
+#                                                                                 |
+#   TweakDrypT™ is a free software: you can redistribute it and/or modify         |
+#   it under the terms of the GNU General Public License as published by          |
+#   the Free Software Foundation, either version 3 of the License, or             |
+#   any later version.                                                            |
+#                                                                                 |
+#   This program is distributed in the hope that it will be useful,               |
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of                |
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                          |
+#   See the GNU General Public License for more details.                          |
+#                                                                                 |
+#   You should have received a copy of the GNU General Public License             |
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.         |
+#   Please contact <http://forum.xda-developers.com/showthread.php?t=2630242>     |
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
+
+TWEAKDRYPT_LOG_DIR=/data/Tweaks/ZipAlign.log;
+
+ZIPALIGNDB=/data/zipalign.db;
+
+if [ ! -f $ZIPALIGNDB ]; then
+	touch $ZIPALIGNDB;
+fi;
+
+for DIR in /preload/app /system/app /system/priv-app /data/app; do
+	cd $DIR;
+	for APK in *.apk; do
+		if [ $APK -ot $ZIPALIGNDB ] && [ $(grep "$DIR/$APK" $ZIPALIGNDB|wc -l) -gt 0 ]; then
+			echo Already checked: $DIR/$APK | tee -a $TWEAKDRYPT_LOG_DIR;
+		else
+			ZIPCHECK=`/system/xbin/zipalign -c -v 4 $APK | grep FAILED | wc -l`;
+			if [ $ZIPCHECK == "1" ]; then
+				echo Now aligning: $DIR/$APK | tee -a $TWEAKDRYPT_LOG_DIR;
+				/system/xbin/zipalign -v -f 4 $APK /sdcard/download/$APK;
+				busybox mount -o rw,remount /system;
+				cp -f -p /sdcard/download/$APK $APK;
+				grep "$DIR/$APK" $ZIPALIGNDB > /dev/null || echo $DIR/$APK >> $ZIPALIGNDB;
+			else
+				grep "$DIR/$APK" $ZIPALIGNDB > /dev/null || echo $DIR/$APK >> $ZIPALIGNDB;
+			fi;
+		fi;
+	done;
+done;
+
+chmod 644 /system/app/*
+chmod 644 /system/priv-app/*
+chmod 644 /data/app/*
+chown 0:0 /system/app/*
+chown 0:0 /system/priv-app/*
+chown 0:0 /data/app/*
+
+busybox mount -o ro,remount /system;
+touch $ZIPALIGNDB;
+
+

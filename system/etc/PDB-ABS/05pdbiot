@@ -1,0 +1,56 @@
+#!/system/bin/sh
+#PROJECT DARK BOOSTER - ABS Tweaks
+#Version - 4.0_Reborn
+#Devoloped by dark_optimistic @XDA
+#Copyright (C)2015 dark_optimistic
+#***********************************************************************#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU General Public License for more details.
+#  You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#***********************************************************************#
+
+
+
+mount -o remount,rw /
+mount -o remount,rw rootfs
+mount -o remount,rw /system
+busybox mount -o remount,rw /
+busybox mount -o remount,rw rootfs
+busybox mount -o remount,rw /system
+
+busybox echo " Adding I/O speed tweak"
+
+busybox mount -o remount,noatime,nobh,nodiratime,nodelalloc,commit=60,noauto_da_alloc,barrier=0 /cache /cache
+busybox mount -o remount,noatime,nodiratime,delalloc,commit=60,noauto_da_alloc,barrier=0 /data /data
+busybox mount -o remount,noatime,nodiratime /dev
+busybox mount -o remount,noatime,nodiratime /proc
+busybox mount -o remount,noatime,nodiratime /sys
+busybox mount -o remount,noatime,nodiratime /system;
+
+STL=`ls -d /sys/block/stl*` 2> /dev/null
+BML=`ls -d /sys/block/bml*` 2> /dev/null
+MMC=`ls -d /sys/block/mmc*` 2> /dev/null
+ZRM=`ls -d /sys/block/zram*` 2> /dev/null
+MTD=`ls -d /sys/block/mtd*` 2> /dev/null
+RAM=`ls -d /sys/block/ram*` 2> /dev/null
+LP=`ls -d /sys/block/loop*` 2> /dev/null
+
+for S in $STL $BML $MMC $ZRM $MTD $RAM; do
+	if [ -e $S/queue/rotational ]; then
+		busybox echo "0" > $S/queue/rotational
+	fi
+	if [ -e $S/queue/iostats ]; then
+		busybox echo "0" > $S/queue/iostats
+	fi
+	if [ -e $S/queue/nr_requests ]; then
+		busybox echo "1024" > $S/queue/nr_requests
+	fi
+	if [ -e $S/queue/nomerges ]; then
+		busybox echo "1" > $S/queue/nomerges
+	fi
+done

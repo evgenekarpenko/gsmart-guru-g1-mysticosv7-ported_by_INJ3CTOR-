@@ -1,0 +1,96 @@
+#!/system/bin/sh
+#TweakDrypt 
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
+#                 Copyright (C) 2014 ArjunrambZ & DeveDroid                       |
+#                              [TweakDrypT™]                                      |
+#                                                                                 |
+#   TweakDrypT™ is a free software: you can redistribute it and/or modify         |
+#   it under the terms of the GNU General Public License as published by          |
+#   the Free Software Foundation, either version 3 of the License, or             |
+#   any later version.                                                            |
+#                                                                                 |
+#   This program is distributed in the hope that it will be useful,               |
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of                |
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                          |
+#   See the GNU General Public License for more details.                          |
+#                                                                                 |
+#   You should have received a copy of the GNU General Public License             |
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.         |
+#   Please contact <http://forum.xda-developers.com/showthread.php?t=2630242>     |
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
+
+#Interval between cleaner runs,in seconds, 86400=24 hours
+RUN_EVERY=86400
+
+
+LOG_FILE=/data/Tweaks/Syscleaner.log
+LOG_FILEZ=/data/Tweaks/Syscleaner.log
+    if [ -e $LOG_FILE ]; then
+        rm $LOG_FILE;
+    fi;
+
+    if [ -e $LOG_FILEZ ]; then
+        rm $LOG_FILEZ;
+    fi;
+
+# the preface
+echo "==========================
+      #  Cleaner script  #
+
+system information:
+vendor   : $( getprop ro.product.brand )
+model    : $( getprop ro.product.model )
+ROM      : $( getprop ro.build.display.id )
+
+running the script...
+start at:
+$( date +"%m-%d-%Y %H:%M:%S" )
+==========================" | tee -a $LOG_FILE;
+
+
+# cleaner
+busybox rm -f /data/anr/*.*
+busybox rm -f /data/cache/*.*
+busybox rm -f /data/log/*.*
+busybox rm -f /data/local/tmp/*.*
+busybox rm -f /data/last_alog/*
+busybox rm -f /data/last_kmsg/*
+busybox rm -f /data/mlog/*
+busybox rm -f /data/tombstones/*
+busybox rm -f /data/system/dropbox/*
+chmod 400 /data/system/dropbox
+busybox rm -f /data/system/usagestats/*
+busybox chmod 400 /data/system/usagestats
+
+export sampling_rate=10000
+export up_threshold=80
+
+echo "memory cleaner--------[OK]" | tee -a $LOG_FILE;
+
+if [ -e /data/anr/*.* ]; then
+  echo "-anr not cleaned" | tee -a $LOG_FILE; else
+  echo "-anr cleaned" | tee -a $LOG_FILE
+fi;
+if [ -e /data/local/tmp/*.* ]; then
+  echo "-local/tmp not cleaned" | tee -a $LOG_FILE; else
+  echo "-local/tmp cleaned" | tee -a $LOG_FILE
+fi;
+if [ -e /data/cache/*.* ]; then
+  echo "-cache not cleaned" | tee -a $LOG_FILE; else
+  echo "-cache cleaned" | tee -a $LOG_FILE
+fi;
+if [ -e /data/last_log/*.* ]; then
+  echo "-log not cleaned" | tee -a $LOG_FILE; else
+  echo "-log cleaned" | tee -a $LOG_FILE
+fi;
+if [ -e /data/tombstones/*.* ]; then
+  echo "-tombstones not cleaned" | tee -a $LOG_FILE; else
+  echo "-tombstones cleaned" | tee -a $LOG_FILE
+fi;
+
+# end
+echo "==========================
+done at:
+$( date +"%m-%d-%Y %H:%M:%S" )
+-----------------------" | tee -a $LOG_FILE;
