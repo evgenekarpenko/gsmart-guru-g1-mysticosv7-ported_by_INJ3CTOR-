@@ -7,6 +7,6 @@ this is an a Rom for Gigabyte Gsmart Guru G1.<br>
 <li>No bugs detected.</li><br>
 </ul>
 
-<h2 style: color:red;>Attention</h2>
+<h2 style="font-family: monospace; color: #cd66cc">Attention</h2>
 <p>The author is not responsible for your actions do everything at your own peril and risk</p>
 <p>Thanks for reading</p>
